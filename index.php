@@ -47,6 +47,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 	<script src="js/stock.js"></script>
 	<script src="js/chart.js"></script>
+	<script src="modules/datetime.js"></script>
 	<script src="js/flip.min.js"></script>
 	<script src="http://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 	<script src="https://unpkg.com/gelerator@4.0.0/dist/gelerator.min.js"></script>
@@ -364,33 +365,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		function updateRTC(func) {
-			$.ajax({
-				type: 'POST',
-				url: 'modules/datetime.php',
-				timeout: 1000,
-				success: function(data){
-					let jsonData = JSON.parse(data);
-					$(".time").html(jsonData.time);
-					$(".date").html(jsonData.textual + ", " + jsonData.month + " " + jsonData.day);
-					// parse json
-					setTimeout(func, 1000);
-				},
-				error: function(data){
-					setTimeout(function(){
-						$(".trSpinner").remove();
-						$(".trLoading").empty();
-						$(".trLoading").append("<div><h3>Module Failed</h3><h3>Try refreshing or checking console log!</h3></div>");
-					}, 500);
-				}
-			})
-		}
-
-		updateRTC(function(){
-			$(".trLoading").remove();
-			$(".display-1").hide().fadeIn(400);
-		});
-
 		function updateWeather( func ){
 			$.ajax({
 				type: 'POST',
@@ -508,9 +482,12 @@
 		});
 	});
 </script>
+
+<!-- Debug Only! -->
 <script type="text/javascript">
 	var c1 = genChartOptions([1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0]);
 	renderChart( "#chart", c1 );
 </script>
+
 </body>
 </html>
