@@ -48,6 +48,7 @@
 	<script src="js/stock.js"></script>
 	<script src="js/chart.js"></script>
 	<script src="modules/datetime.js"></script>
+	<script src="modules/weather.js"></script>
 	<script src="js/flip.min.js"></script>
 	<script src="http://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 	<script src="https://unpkg.com/gelerator@4.0.0/dist/gelerator.min.js"></script>
@@ -146,118 +147,26 @@
 				</div>
 				<br>
 				<div class="container" id="weatherForecast" style="display: none;">
-					<div class="row weatherBar" id="weather-day-1">
-						<div class="col-4">
-							<span class="weatherSub" id="dayName1"></span>
-						</div>
-						<div class="col-3">
-							<div class="centerAlign">
-								<img class="weatherIconSub" id="dayIcon1" src="img/icon_few_clouds_day.svg"/>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="rightAlign weatherSub">
-								<span class="spacerRight" id="dayHigh1"></span>
-								<span class="low" id="dayLow1"></span>
-							</div>
-						</div>
-					</div>
-					<div class="row weatherBar" id="weather-day-2">
-						<div class="col-4">
-							<span class="weatherSub" id="dayName2"></span>
-						</div>
-						<div class="col-3">
-							<div class="centerAlign">
-								<img class="weatherIconSub" id="dayIcon2" src="img/icon_few_clouds_day.svg"/>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="rightAlign weatherSub">
-								<span class="spacerRight" id="dayHigh2"></span>
-								<span class="low" id="dayLow2"></span>
-							</div>
-						</div>
-					</div>
-					<div class="row weatherBar" id="weather-day-3">
-						<div class="col-4">
-							<span class="weatherSub" id="dayName3"></span>
-						</div>
-						<div class="col-3">
-							<div class="centerAlign">
-								<img class="weatherIconSub" id="dayIcon3" src="img/icon_few_clouds_day.svg"/>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="rightAlign weatherSub">
-								<span class="spacerRight" id="dayHigh3"></span>
-								<span class="low" id="dayLow3"></span>
-							</div>
-						</div>
-					</div>
-					<div class="row weatherBar" id="weather-day-4">
-						<div class="col-4">
-							<span class="weatherSub" id="dayName4"></span>
-						</div>
-						<div class="col-3">
-							<div class="centerAlign">
-								<img class="weatherIconSub" id="dayIcon4" src="img/icon_few_clouds_day.svg"/>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="rightAlign weatherSub">
-								<span class="spacerRight" id="dayHigh4"></span>
-								<span class="low" id="dayLow4"></span>
-							</div>
-						</div>
-					</div>
-					<div class="row weatherBar" id="weather-day-5">
-						<div class="col-4">
-							<span class="weatherSub" id="dayName5"></span>
-						</div>
-						<div class="col-3">
-							<div class="centerAlign">
-								<img class="weatherIconSub" id="dayIcon5" src="img/icon_few_clouds_day.svg"/>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="rightAlign weatherSub">
-								<span class="spacerRight" id="dayHigh5"></span>
-								<span class="low" id="dayLow5"></span>
-							</div>
-						</div>
-					</div>
-					<div class="row weatherBar" id="weather-day-6">
-						<div class="col-4">
-							<span class="weatherSub" id="dayName6"></span>
-						</div>
-						<div class="col-3">
-							<div class="centerAlign">
-								<img class="weatherIconSub" id="dayIcon6" src="img/icon_few_clouds_day.svg"/>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="rightAlign weatherSub">
-								<span class="spacerRight" id="dayHigh6"></span>
-								<span class="low" id="dayLow6"></span>
-							</div>
-						</div>
-					</div>
-					<div class="row weatherBar" id="weather-day-7">
-						<div class="col-4">
-							<span class="weatherSub" id="dayName7"></span>
-						</div>
-						<div class="col-3">
-							<div class="centerAlign">
-								<img class="weatherIconSub" id="dayIcon7" src="img/icon_few_clouds_day.svg"/>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="rightAlign weatherSub">
-								<span class="spacerRight" id="dayHigh7"></span>
-								<span class="low" id="dayLow7"></span>
-							</div>
-						</div>
-					</div>
+					<?php
+						for($i = 1; $i < 8; $i++ ){
+							echo '<div class="row weatherBar" id="weather-day-' . $i . '">';
+								echo '<div class="col-4">';
+									echo '<span class="weatherSub" id="dayName' . $i . '"></span>';
+								echo '</div>';
+								echo '<div class="col-3">';
+									echo '<div class="centerAlign">';
+										echo '<img class="weatherIconSub" id="dayIcon' . $i . '" src="img/icon_few_clouds_day.svg"/>';
+									echo '</div>';
+								echo '</div>';
+								echo '<div class="col-4">';
+									echo '<div class="rightAlign weatherSub">';
+										echo '<span class="spacerRight" id="dayHigh' . $i . '"></span>';
+										echo '<span class="low" id="dayLow' . $i . '"></span>';
+									echo '</div>';
+								echo '</div>';
+							echo '</div>';
+						}
+					?>
 				</div>
 			</div>
 			<div class="col-3">
@@ -365,73 +274,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		function updateWeather( func ){
-			$.ajax({
-				type: 'POST',
-				url: 'modules/weather.php',
-				timeout: 100000,
-				success: function(data){
-					try{
-						let jsonData = JSON.parse(data);
-
-						if( jsonData.status != 200 ){
-							throw 'Invalid response';
-						}
-
-						let currentData = jsonData.current;
-
-						let curTemp = currentData.temp;
-						let curHumid = currentData.humidity;
-						let curWind = currentData.wind_speed;
-						let curDesc = currentData.weather[0].description;
-
-						$(".sunnyTemp").html(Math.ceil(curTemp) + "˚");
-						$(".humidity").html(Math.ceil(curHumid) + "%");
-						$(".windSpeed").html(Math.ceil(curWind) + "mph");
-						$("#currentWeatherIcon").attr("src", "img/" + currentData.weather[0].icon + ".svg");
-						$(".weatherDesc").html(curDesc);
-
-						let displayName = ( jsonData.state ? jsonData.city + ", " + jsonData.state : jsonData.city );
-						$("#cityName").html(displayName);
-						$("#sunRise").html(currentData.sunrise);
-						$("#sunSet").html(currentData.sunset);
-
-						$.each( jsonData['daily'], function( k, v ){
-							$("#dayName" + k).html(v.week_day);
-							$("#dayHigh" + k).html(Math.ceil(v.temp.max) + "˚");
-							$("#dayLow" + k).html(Math.ceil(v.temp.min) + "˚");
-							$("#dayIcon" + k).attr("src", "img/" + v.weather[0].icon + ".svg");
-						});
-
-						setTimeout(func, 500);
-					}catch(err){
-						$(".weatherDisplay").hide();
-						$("#weeatherForecast").hide();
-						$(".tlSpinner").remove();
-						$(".tlLoading").empty();
-						$(".tlLoading").append("<div><h3>Module Failed</h3><h3>Try refreshing or checking console log!</h3></div>");
-					}
-
-					setTimeout(updateWeather, 100000);
-				},
-				error: function(data){
-					setTimeout(function(){
-						$(".weatherDisplay").hide();
-						$("#weeatherForecast").hide();
-						$(".tlSpinner").remove();
-						$(".tlLoading").empty();
-						$(".tlLoading").append("<div><h6>Module Failed</h3><h6>Try refreshing or checking console log!</h3></div>");
-					}, 500);
-				}
-			})
-		}
-
-		updateWeather(function(){
-			$(".tlLoading").remove();
-			$(".weatherDisplay").hide().fadeIn(400);
-			$("#weatherForecast").hide().fadeIn(400);
-		});
-
 		function updateStocks( func ){
 			$.ajax({
 				type: 'POST',

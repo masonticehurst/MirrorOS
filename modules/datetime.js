@@ -1,7 +1,7 @@
 function updateRTC(func) {
 	$.ajax({
 		type: 'POST',
-		url: 'datetime.php',
+		url: 'modules/datetime.php',
 		timeout: 1000,
 		success: function(data){
 			let jsonData = JSON.parse(data);
