@@ -45,13 +45,10 @@
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery.gridstrap@0.0.0-semantically-released/dist/jquery.gridstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-	
-	<script src="odometer.min.js"></script>
-	<!-- <script src="https://cdn.jsdelivr.net/npm/number-flip@1.1.10"></script> -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/FitText.js/1.2.0/jquery.fittext.min.js"></script>
+	<script src="js/stock.js"></script>
+	<script src="js/flip.min.js"></script>
 	<script src="http://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 	<script src="https://unpkg.com/gelerator@4.0.0/dist/gelerator.min.js"></script>
-	<!-- <script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script> -->
 	<!-- Page Tags -->
 	<title></title>
 </head>
@@ -365,91 +362,6 @@
 </div>
 
 <script type="text/javascript">
-	function changeStockPrice( index, newAmount, digs ){
-		/*
-		var DollarAmnt = Math.floor(newAmount);
-		var ChangeAmnt = Math.round((newAmount % 1) * 100);
-
-		// Make sure we can interact with Flip class otherwise create/recreate
-		if( Stocks[index] == null ){			
-			// Set data- attribute to reflect value without having to parse html manually
-			$(".flipPrice" + index).data("value", newAmount);
-
-			// Instantiate flip object to interface with number-flip library
-			Stocks[index] = {};
-
-			// Dollars
-			Stocks[index].Dollars = new Flip({
-				node: document.querySelector(".flipPrice" + index),
-				from: DollarAmnt,
-				easeFn: function(pos) {
-					// Smoothing anim
-					if ((pos/=0.5) < 1) return 0.5*Math.pow(pos,3);
-					return 0.5 * (Math.pow((pos-2),3) + 2);
-				},
-				maxLenNum: (''+DollarAmnt).length
-			});
-
-			// Change
-			Stocks[index].Change = new Flip({
-				node: document.querySelector(".flipChange" + index),
-				from: ChangeAmnt,
-				easeFn: function(pos) {
-					// Smoothing anim
-					if ((pos/=0.5) < 1) return 0.5*Math.pow(pos,3);
-					return 0.5 * (Math.pow((pos-2),3) + 2);
-				},
-				maxLenNum: 2,
-			});
-
-			return;
-		}
-
-		var oldDollarAmount = $(".flipPrice" + index).data("value");
-		$(".flipPrice" + index).data("value", newAmount);
-
-		// Flip to new val
-		Stocks[index].Dollars.flipTo({
-			to: DollarAmnt,
-			direct: false,
-			duration: 0.4,
-			maxLenNum: digs,
-		});
-		Stocks[index].Change.flipTo({
-			to: ChangeAmnt,
-			direct: false,
-			duration: 0.4,
-			maxLenNum: 2,
-		});
-		*/
-		var od = document.querySelector('.flipPrice' + index);
-		odom = new Odometer({
-			el: od,
-			value: newAmount
-		});
-		odom.update(newAmount);
-
-		var oldDollarAmount = $('.flipPrice' + index).data("value") || 0;
-		$('.flipPrice' + index).data("value", newAmount);
-		$('.flipPrice' + index).html(newAmount);
-
-		// In the green!
-		if( newAmount > oldDollarAmount ){
-			console.log("animated up!!");
-			$(".flipPrice" + index).stop().dequeue().animate({color: '#00B900'}, 100, function() {
-				$(".flipPrice" + index).stop().dequeue().animate({color: '#FFFFFF'}, 600);
-			});
-		}
-
-		// In the red :(
-		if(  newAmount < oldDollarAmount ){
-			console.log("animated down!!");
-			$(".flipPrice" + index).stop().dequeue().animate({color: '#B90000'}, 100, function(){
-				$(".flipPrice" + index).stop().dequeue().animate({color: '#FFFFFF'}, 600);
-			});
-		}
-	}
-
 	$(document).ready(function() {
 		function updateRTC(func) {
 			$.ajax({
