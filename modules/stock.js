@@ -73,3 +73,51 @@ function changeStockPrice( index, newAmount, digs ){
 		});
 	}
 }
+
+function updateStocks( func ){
+	$.ajax({
+		type: 'POST',
+		url: 'modules/stocks.php',
+		timeout: 120000,
+		success: function(data){
+			try{
+				let jsonData = JSON.parse(data);
+
+				if( jsonData.status != 200 ){
+					throw 'Invalid response';
+				}
+
+				$.each(jsonData["Stocks"], function(k ,v){
+					$.each(v, function(ticker, value){
+						$(".stockName" + k).html(ticker);
+						changeStockPrice(k, value);
+						// $("#flipPrice" + k).html(value);
+					});
+				});
+
+				setTimeout(func, 500);
+				}catch(err){
+					console.log("caught ex stocks");
+					$(".blSpinner").remove();
+					$(".blLoading").empty();
+					$(".blLoading").append("<div><h6>Module Failed</h6><h6>Try refreshing or checking console log!</h6></div>");
+				}
+					setTimeout(updateStocks, 120000);
+		},
+		error: function(data){
+			setTimeout(function(){
+				console.log("caught err stocks");
+				$(".blSpinner").remove();
+				$(".blLoading").empty();
+				$(".blLoading").append("<div><h6>Module Failed</h6><h6>Try refreshing or checking console log!</h6></div>");
+			}, 500);
+		}
+	});
+}
+
+$(document).ready(function() {
+	updateStocks(function(){
+		$(".blLoading").remove();
+		$("#Stocks").hide().fadeIn(400);
+	});
+});

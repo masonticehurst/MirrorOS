@@ -45,10 +45,7 @@
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery.gridstrap@0.0.0-semantically-released/dist/jquery.gridstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-	<script src="js/stock.js"></script>
 	<script src="js/chart.js"></script>
-	<script src="modules/datetime.js"></script>
-	<script src="modules/weather.js"></script>
 	<script src="js/flip.min.js"></script>
 	<script src="http://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 	<script src="https://unpkg.com/gelerator@4.0.0/dist/gelerator.min.js"></script>
@@ -272,58 +269,9 @@
 	</div>
 </div>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		function updateStocks( func ){
-			$.ajax({
-				type: 'POST',
-				url: 'modules/stocks.php',
-				timeout: 120000,
-				success: function(data){
-					try{
-					let jsonData = JSON.parse(data);
-
-					console.log(jsonData);
-
-					if( jsonData.status != 200 ){
-						throw 'Invalid response';
-					}
-
-					$.each(jsonData["Stocks"], function(k ,v){
-						$.each(v, function(ticker, value){
-							$(".stockName" + k).html(ticker);
-							changeStockPrice(k, value);
-							// $("#flipPrice" + k).html(value);
-						});
-					});
-
-					setTimeout(func, 500);
-					}catch(err){
-						console.log("caught ex stocks");
-						$(".blSpinner").remove();
-						$(".blLoading").empty();
-						$(".blLoading").append("<div><h6>Module Failed</h6><h6>Try refreshing or checking console log!</h6></div>");
-					}
-
-					setTimeout(updateStocks, 120000);
-				},
-				error: function(data){
-					setTimeout(function(){
-						console.log("caught err stocks");
-						$(".blSpinner").remove();
-						$(".blLoading").empty();
-						$(".blLoading").append("<div><h6>Module Failed</h6><h6>Try refreshing or checking console log!</h6></div>");
-					}, 500);
-				}
-			})
-		}
-
-		updateStocks(function(){
-			$(".blLoading").remove();
-			$("#Stocks").hide().fadeIn(400);
-		});
-	});
-</script>
+<script src="modules/stock.js"></script>
+<script src="modules/datetime.js"></script>
+<script src="modules/weather.js"></script>
 
 <!-- Debug Only! -->
 <script type="text/javascript">
