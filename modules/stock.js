@@ -102,7 +102,7 @@ function updateStocks( func ){
 					$(".blLoading").empty();
 					$(".blLoading").append("<div><h6>Module Failed</h6><h6>Try refreshing or checking console log!</h6></div>");
 				}
-					setTimeout(updateStocks, 120000);
+					setTimeout(updateStocks, 180000);
 		},
 		error: function(data){
 			setTimeout(function(){
