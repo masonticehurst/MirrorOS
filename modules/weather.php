@@ -122,7 +122,7 @@
 			// Atmosphere
 			701 	=>	"Mist",
 			711		=>	"Smoke",
-			721		=>	"Ha",
+			721		=>	"Haze",
 			731		=>	"Dust",
 			741		=>	"Fog",
 			751		=>	"Sand",
@@ -166,6 +166,19 @@
 			])->getBody();
 		}
 
+		/*
+			Name: reverseGeocodeByName( (str) name )
+			Desc: Reverse geocoding gets name, lat, and long of the location from city/state/country name
+		*/
+		function reverseGeocodeByName( $name ){
+			return $this->requestClient->request('GET', 'geo/1.0/direct', [
+				'query' => [
+					'q' 	=> $name,
+					'limit' => 1,
+					'appid' => $this->config->getWeatherAPI(),
+				]
+			])->getBody();
+		}
 
 		/*
 			Name: getForecast( (str) longitude, (str) latitude )
@@ -212,13 +225,25 @@
 	$response = null;
 
 	try {
+		// Check if lat, long, or both are missing or null from config
+		if( $config->getLatitude() == '' || $config->getLongitude() == '' || !$config->getLongitude() || !$config->getLatitude() ){
+			// Attempt reverse lookup for lat/lon
+			if( ($config->getCity() != '' || !$config->getCity()) && ($config->getCountry() != '' || !$config->getCountry()) ){
+				$query = ($config->getState() != '' || !$config->getState()) ? ($config->getCity() . ", " . $config->getState() . ", " . $config->getCountry()) : ($config->getCity() . ", " . $config->getCountry() );
+				$resp = $weather->reverseGeocodeByName( $query );
+				$jsonData = json_decode($resp, true);
+				$config->setLatitude( $jsonData[0]["lat"] );
+				$config->setLongitude( $jsonData[0]["lon"] );
+			}
+		}
+
 		// Call our API method
 		$resp = $weather->getForecast($config->getLongitude(), $config->getLatitude());
 		$geocode = $weather->reverseGeocode($config->getLongitude(), $config->getLatitude());
 
 		// Attempt to decode API response body as JSON
 		$jsonData = json_decode($resp, true);
-
+		
 		// Geocoding data (city & state names)
 		$geoData = json_decode($geocode, true);
 		$jsonData['city'] = $geoData[0]['name'];

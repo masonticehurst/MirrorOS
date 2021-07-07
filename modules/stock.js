@@ -78,7 +78,7 @@ function updateStocks( func ){
 	$.ajax({
 		type: 'POST',
 		url: 'modules/stocks.php',
-		timeout: 120000,
+		timeout: 180000,
 		success: function(data){
 			try{
 				let jsonData = JSON.parse(data);
