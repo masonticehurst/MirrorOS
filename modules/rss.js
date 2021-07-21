@@ -5,8 +5,8 @@
 	Update when no items present
 */
 
-function cycleNewsItem(){
-
+function cycleNewsItem( itemStack ){
+	console.log(itemStack);
 }
 
 function triggerException( location ){
@@ -33,18 +33,21 @@ function updateRSS( func ){
 				// Iterate over each stock current value
 				$.each(jsonData["Data"], function(k ,v){
 					$.each(v["Items"], function(k2, v2){
-						console.log(v2["Title"][0])
+						// console.log(v2["Title"][0])
 					});
 				});
 
 				// Run callback
-				setTimeout(func, 500);
+				setTimeout(function(){
+					func( jsonData["Data"] );
+				}, 500);
+
 				}catch(err){
 					// Exception handling, stop loading, display error msg
 					triggerException( "cn" );
 				}
 				
-				// No exceptions, continue running every 3 minutes (180s)
+				// No exceptions, continue running every 10 minutes (600s)
 				setTimeout(updateRSS, 600000);
 		},
 		error: function(data){
@@ -57,7 +60,10 @@ function updateRSS( func ){
 
 // Initial
 $(document).ready(function() {
-	updateRSS(function(){
-		console.log("LOADED");
+	updateRSS(function( data ){
+		$(".cnLoading").remove();
+		$(".rss").removeClass("d-none").hide().fadeIn(400);
+
+		cycleNewsItem( data );
 	});
 });

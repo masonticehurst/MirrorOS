@@ -180,6 +180,26 @@
 </div>
 
 <div class="container-fluid px-2 py-2 bottom">
+
+	<div class="text-center d-flex align-items-center justify-content-center">
+		<div class="text-center cnLoading d-flex align-items-center justify-content-center" style="width: 800px;height: 120px;background-color: #101010;border-radius: 4px;vertical-align: middle;">
+			<div class="spinner-border cnSpinner" style="width: 2vw; height: 2vw;" role="status"></div>
+		</div>
+		<div class="row text-nowrap overflow-hidden d-none rss">
+
+			<figure class="text-end">
+			  <blockquote class="blockquote">
+			    <p>China Breached Dozens of Pipeline Companies in Past Decade, U.S. Says</p>
+			  </blockquote>
+			  <figcaption class="blockquote-footer">
+			    <cite title="Source Title">New York Times</cite>
+			  </figcaption>
+			</figure>
+
+			<br>
+		</div>
+	</div>
+
 	<div class="text-center blLoading d-flex align-items-center justify-content-center" style="width: 800px;height: 120px;background-color: #101010;border-radius: 4px;vertical-align: middle;">
 		<div class="spinner-border blSpinner" style="width: 2vw; height: 2vw;" role="status"></div>
 	</div>

@@ -9,12 +9,13 @@ function updateRTC(func) {
 			$(".date").html(jsonData.textual + ", " + jsonData.month + " " + jsonData.day);
 			// parse json
 			setTimeout(func, 1000);
+			setTimeout(updateRTC, 1000);
 		},
 		error: function(data){
 			setTimeout(function(){
-			$(".trSpinner").remove();
-			$(".trLoading").empty();
-			$(".trLoading").append("<div><h3>Module Failed</h3><h3>Try refreshing or checking console log!</h3></div>");
+				$(".trSpinner").remove();
+				$(".trLoading").empty();
+				$(".trLoading").append("<div><h3>Module Failed</h3><h3>Try refreshing or checking console log!</h3></div>");
 			}, 500);
 		}
 	})
@@ -23,6 +24,6 @@ function updateRTC(func) {
 $(document).ready(function() {
 	updateRTC(function(){
 		$(".trLoading").remove();
-		$(".display-1").hide().fadeIn(400);
+		$(".display-1").removeClass("d-none").hide().fadeIn(400);
 	});
 });
