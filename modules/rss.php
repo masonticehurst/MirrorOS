@@ -57,7 +57,9 @@
 	}
 
 	$rss = new \RSS();
-	$feedData = array();
+	$feedData = array(
+		"Data"	=> array()
+	);
 	$response = null;
 
 	try {
@@ -76,10 +78,16 @@
 				);
 			}
 
-			array_push($feedData, array(
+			array_push($feedData["Data"], array(
 				"Title" => $f->title,
 				"Items" => $feedItems
 			));
+
+			$response = $feedData;
+			
+			$response['status'] = 200;
+
+			$response = json_encode($response);
 		}
 	}
 	catch(Exception $e){
@@ -94,6 +102,5 @@
 		));
 	}
 
-	echo(json_encode($feedData));
 	echo $response;
 ?>
