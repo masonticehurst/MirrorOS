@@ -107,7 +107,7 @@
 
 				// Something is seriously fucked if decode fails here
 				$configData = json_decode( file_get_contents( self::$conf ), true );
-			}			
+			}
 
 			// Store all custom data
 			$this->setTimeZone( $configData['TimeZone'] );

@@ -17,16 +17,16 @@ function updateWeather( func ){
 				let curWind = currentData.wind_speed;
 				let curDesc = currentData.weather[0].description;
 
-				$(".sunnyTemp").html(Math.ceil(curTemp) + "˚");
+				$(".temperature").html(Math.ceil(curTemp) + "˚");
 				$(".humidity").html(Math.ceil(curHumid) + "%");
 				$(".windSpeed").html(Math.ceil(curWind) + "mph");
 				$("#currentWeatherIcon").attr("src", "img/" + currentData.weather[0].icon + ".svg");
 				$(".weatherDesc").html(curDesc);
 
 				let displayName = ( jsonData.state ? jsonData.city + ", " + jsonData.state : jsonData.city );
-				$("#cityName").html(displayName);
-				$("#sunRise").html(currentData.sunrise);
-				$("#sunSet").html(currentData.sunset);
+				$(".cityName").html(displayName);
+				$(".sunRise").html(currentData.sunrise);
+				$(".sunSet").html(currentData.sunset);
 
 				$.each( jsonData['daily'], function( k, v ){
 					$("#dayName" + k).html(v.week_day);
@@ -38,21 +38,28 @@ function updateWeather( func ){
 				setTimeout(func, 500);
 			} catch(err) {
 				$(".weatherDisplay").hide();
-				$("#weeatherForecast").hide();
+				$("#weatherForecast").hide();
 				$(".tlSpinner").remove();
 				$(".tlLoading").empty();
 				$(".tlLoading").append("<div><h3>Module Failed</h3><h3>Try refreshing or checking console log!</h3></div>");
+			
+				setTimeout(function(){
+					updateWeather(function(){
+						$(".tlLoading").remove();
+						$(".weatherDisplay").removeClass("d-none").hide().fadeIn(400);
+						$("#weatherForecast").removeClass("d-none").hide().fadeIn(400);
+					});
+				}, 5000);
 			}
-
-			setTimeout(updateWeather, 100000);
 		},
 		error: function(data){
 			setTimeout(function(){
 				$(".weatherDisplay").hide();
-				$("#weeatherForecast").hide();
+				$("#weatherForecast").hide();
 				$(".tlSpinner").remove();
 				$(".tlLoading").empty();
 				$(".tlLoading").append("<div><h6>Module Failed</h3><h6>Try refreshing or checking console log!</h3></div>");
+				setTimeout(updateWeather, 100000);
 			}, 500);
 		}
 	})
@@ -61,7 +68,7 @@ function updateWeather( func ){
 $(document).ready(function() {
 	updateWeather(function(){
 		$(".tlLoading").remove();
-		$(".weatherDisplay").hide().fadeIn(400);
-		$("#weatherForecast").hide().fadeIn(400);
+		$(".weatherDisplay").removeClass("d-none").hide().fadeIn(400);
+		$("#weatherForecast").removeClass("d-none").hide().fadeIn(400);
 	});
 });
