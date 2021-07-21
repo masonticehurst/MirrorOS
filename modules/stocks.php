@@ -84,6 +84,22 @@
 				]
 			])->getBody();
 		}
+
+		/*
+			Name: getStockIntraday( (str) symbol )
+			Desc: Gets 1min, 5min, 15min, 30min or 60min time series stock data
+		*/
+		function getStockIntraday( $symbol ){
+			return $this->requestClient->request('GET', 'query', [
+				'query' => [
+					'function' 	=> 'TIME_SERIES_INTRADAY',
+					'symbol' 	=> $symbol,
+					'interval'	=> '60min',
+					'outputsize'=> 'compact',
+					'apikey' 	=> $this->config->getStockAPI(),
+				]
+			])->getBody();
+		}
 	}
 
 	$stocks = new \Stocks();
@@ -91,12 +107,26 @@
 
 	try {
 		$response = array(
-			"Stocks"	=> 	array()
+			"Stocks"	=> 	array(),
+			"Intraday"	=>	array(),
 		);
 
 		foreach( $stocks->getStocks() as $stock ){
 			if( !isset( $stock ) ){ continue; }
 
+			// Stage 1: Grab historical price data for chart
+			$intraday = $stocks->getStockIntraday($stock);
+			$intraday = json_decode($intraday, true);
+			$response["Intraday"][$stock] = array();
+
+			if( isset( $intraday['Time Series (60min)'] ) ){
+				$series = array_reverse($intraday['Time Series (60min)']);
+				foreach( $series as $date => $data ){
+					array_push( $response["Intraday"][$stock], $data["4. close"] );
+				}
+			}
+
+			// Stage 2: Grab current price quote
 			$quote = $stocks->getStockQuote($stock);
 			$quote = json_decode($quote, true);
 
