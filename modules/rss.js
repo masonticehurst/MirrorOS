@@ -1,12 +1,40 @@
-/*
-	Grab RSS items
-	Send array of items to cycle as queue
-	Show each roughly 10 seconds and dequeue
-	Update when no items present
-*/
+/**
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ * @author Craftingexpert1 @ Stack Overflow
+ */
+function shuffle (arr) {
+	var j, x, index;
+	for (index = arr.length - 1; index > 0; index--) {
+		j = Math.floor(Math.random() * (index + 1));
+		x = arr[index];
+		arr[index] = arr[j];
+		arr[j] = x;
+	}
+	return arr;
+}
 
 function cycleNewsItem( itemStack ){
-	console.log(itemStack);
+	if( itemStack.length < 1 ){
+		return updateRSS();
+	}
+
+	$(".rssText").fadeOut(400, function() {
+		var item = itemStack.pop();
+		$(".rssText").hide();
+		$(".rssText").html(item["Title"][0]);
+		$(".rssText").fadeIn(400);
+
+	    if( $(".rssSource").text() != item["Source"][0] ){
+			$(".rssSource").hide();
+			$(".rssSource").text(item["Source"][0]);
+			$(".rssSource").fadeIn(400); 
+	    }
+	});
+
+	setTimeout( function(){
+		cycleNewsItem(itemStack);
+	}, 5000);
 }
 
 function triggerException( location ){
@@ -30,17 +58,19 @@ function updateRSS( func ){
 					throw 'Invalid response';
 				}
 
-				// Iterate over each stock current value
+				var itemsStack = [];
+
 				$.each(jsonData["Data"], function(k ,v){
 					$.each(v["Items"], function(k2, v2){
-						// console.log(v2["Title"][0])
+						itemsStack.push(v2);
 					});
 				});
 
+				itemsStack = shuffle(itemsStack);
+				cycleNewsItem(itemsStack);
+
 				// Run callback
-				setTimeout(function(){
-					func( jsonData["Data"] );
-				}, 500);
+				setTimeout(func, 500);
 
 				}catch(err){
 					// Exception handling, stop loading, display error msg
@@ -60,10 +90,8 @@ function updateRSS( func ){
 
 // Initial
 $(document).ready(function() {
-	updateRSS(function( data ){
+	updateRSS(function(){
 		$(".cnLoading").remove();
 		$(".rss").removeClass("d-none").hide().fadeIn(400);
-
-		cycleNewsItem( data );
 	});
 });

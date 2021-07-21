@@ -189,10 +189,10 @@
 
 			<figure class="text-end">
 			  <blockquote class="blockquote">
-			    <p>China Breached Dozens of Pipeline Companies in Past Decade, U.S. Says</p>
+			    <p class="rssText"></p>
 			  </blockquote>
 			  <figcaption class="blockquote-footer">
-			    <cite title="Source Title">New York Times</cite>
+			    <cite class="rssSource"></cite>
 			  </figcaption>
 			</figure>
 

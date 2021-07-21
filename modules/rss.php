@@ -66,13 +66,14 @@
 		foreach( $rss->getFeeds() as $feedUri ){
 			$f = Feed::loadRss($feedUri);
 			$feedItems = array();
-			$unix = time() - (60 * 60 * 24);
+			$unix = time() - (60 * 60 * 24 * 7);
 
 			foreach ($f->item as $item) {
 				if($item->timestamp < $unix){ continue; }
 				array_push($feedItems, 
 					array(
 						"Title"		=> 	$item->title,
+						"Source"	=>  $f->title,
 						"Timestamp"	=>	$item->timestamp
 					)
 				);
