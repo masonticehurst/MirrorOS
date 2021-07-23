@@ -203,37 +203,43 @@
 	<div class="text-center blLoading d-flex align-items-center justify-content-center" style="width: 800px;height: 120px;background-color: #101010;border-radius: 4px;vertical-align: middle;">
 		<div class="spinner-border blSpinner" style="width: 2vw; height: 2vw;" role="status"></div>
 	</div>
-	<div class="row text-nowrap overflow-hidden d-none stocks">
-		<?php
-			$numStocks = count( $config->getTrackedStocks() );
-			for( $i = 0; $i < $numStocks; $i++ ){
-				echo '<div class="col-2 pe-0">';
-					echo '<div class="row">';
-						echo '<div class="col-7">';
-							echo '<div id="chart' . $i . '"></div>';
-						echo '</div>';
-						echo '<div class="col-5">';
-							echo '<br>';
-							echo '<div class="stockContainer">';
-								echo '<div class="d-flex align-items-center">';
-									echo '<svg width="16" height="16">';
-										echo '<circle fill="#ff0000" stroke="none" cx="8" cy="8" r="8">';
-											echo '<animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.1"/>';
-										echo '</circle>';
-									echo '</svg>';
-									echo '<span class="stockName stockName' . $i . ' fw-500"></span>';
-								echo '</div>';
-								echo '<div class="stockFullName stockFullName' . $i . ' fw-100"></div>';
-								echo '<div class="stockPrice align-items-center">';
-									echo '<div class="fs-2 fw-700">$</div>';
-									echo '<div class="flipPrice flipPrice0 fs-2 fw-700"></div>';
+	<div class="row text-nowrap d-flex justify-content-between overflow-hidden">
+		<!-- MirrorFramework :: Stocks -->
+		<div class="col d-none stocks">
+			<?php
+				$numStocks = count( $config->getTrackedStocks() );
+				for( $i = 0; $i < $numStocks; $i++ ){
+					echo '<div class="col-2 pe-0">';
+						echo '<div class="row">';
+							echo '<div class="col-7">';
+								echo '<div id="chart' . $i . '"></div>';
+							echo '</div>';
+							echo '<div class="col-5">';
+								echo '<br>';
+								echo '<div class="stockContainer">';
+									echo '<div class="d-flex align-items-center">';
+										echo '<svg width="16" height="16">';
+											echo '<circle fill="#ff0000" stroke="none" cx="8" cy="8" r="8">';
+												echo '<animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.1"/>';
+											echo '</circle>';
+										echo '</svg>';
+										echo '<span class="stockName stockName' . $i . ' fw-500"></span>';
+									echo '</div>';
+									echo '<div class="stockFullName stockFullName' . $i . ' fw-100"></div>';
+									echo '<div class="stockPrice align-items-center">';
+										echo '<div class="fs-2 fw-700">$</div>';
+										echo '<div class="flipPrice flipPrice0 fs-2 fw-700"></div>';
+									echo '</div>';
 								echo '</div>';
 							echo '</div>';
 						echo '</div>';
 					echo '</div>';
-				echo '</div>';
-			}
-		?>
+				}
+			?>
+		</div>
+		<div class="col col-auto">
+			<!-- MirrorFramework :: Spotify -->
+		</div>
 	</div>
 </div>
 
