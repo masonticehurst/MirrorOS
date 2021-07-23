@@ -181,30 +181,32 @@
 
 <div class="container-fluid px-2 py-2 bottom">
 
-	<div class="text-center d-flex align-items-center justify-content-center">
-		<div class="text-center cnLoading d-flex align-items-center justify-content-center" style="width: 800px;height: 120px;background-color: #101010;border-radius: 4px;vertical-align: middle;">
-			<div class="spinner-border cnSpinner" style="width: 2vw; height: 2vw;" role="status"></div>
-		</div>
-		<div class="row text-nowrap overflow-hidden d-none rss">
+	<div class="row">
+		<div class="text-center d-flex align-items-center justify-content-center">
+			<div class="text-center cnLoading d-flex align-items-center justify-content-center" style="width: 800px;height: 120px;background-color: #101010;border-radius: 4px;vertical-align: middle;">
+				<div class="spinner-border cnSpinner" style="width: 2vw; height: 2vw;" role="status"></div>
+			</div>
+			<div class="row text-nowrap overflow-hidden d-none rss">
 
-			<figure class="text-end">
-			  <blockquote class="blockquote">
-			    <p class="rssText"></p>
-			  </blockquote>
-			  <figcaption class="blockquote-footer">
-			    <cite class="rssSource"></cite>
-			  </figcaption>
-			</figure>
+				<figure class="text-end">
+				  <blockquote class="blockquote">
+				    <p class="rssText"></p>
+				  </blockquote>
+				  <figcaption class="blockquote-footer">
+				    <cite class="rssSource"></cite>
+				  </figcaption>
+				</figure>
 
-			<br>
+				<br>
+			</div>
 		</div>
 	</div>
 
-	<div class="text-center blLoading d-flex align-items-center justify-content-center" style="width: 800px;height: 120px;background-color: #101010;border-radius: 4px;vertical-align: middle;">
-		<div class="spinner-border blSpinner" style="width: 2vw; height: 2vw;" role="status"></div>
-	</div>
-	<div class="row text-nowrap d-flex justify-content-between overflow-hidden">
+	<div class="row text-nowrap d-flex justify-content-between align-items-center overflow-hidden">
 		<!-- MirrorFramework :: Stocks -->
+		<div class="text-center blLoading d-flex align-items-center justify-content-center" style="width: 800px;height: 120px;background-color: #101010;border-radius: 4px;vertical-align: middle;">
+			<div class="spinner-border blSpinner" style="width: 2vw; height: 2vw;" role="status"></div>
+		</div>
 		<div class="col d-none stocks">
 			<?php
 				$numStocks = count( $config->getTrackedStocks() );
@@ -237,9 +239,16 @@
 				}
 			?>
 		</div>
-		<div class="col col-auto">
-			<!-- MirrorFramework :: Spotify -->
+		<div class="text-center brLoading d-flex align-items-center justify-content-center" style="width: 300px;height: 160px;background-color: #101010;border-radius: 4px;vertical-align: middle;">
+			<div class="spinner-border blSpinner" style="width: 2vw; height: 2vw;" role="status"></div>
 		</div>
+		<div class="col col-auto d-none spotify">
+			<!-- MirrorFramework :: Spotify -->
+			<div style="border-radius: 8px;width: 300px;height: 160px;background-color: gray;">
+				aa
+			</div>
+		</div>
+	</div>
 	</div>
 </div>
 
