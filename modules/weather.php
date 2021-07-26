@@ -232,8 +232,11 @@
 				$query = ($config->getState() != '' || !$config->getState()) ? ($config->getCity() . ", " . $config->getState() . ", " . $config->getCountry()) : ($config->getCity() . ", " . $config->getCountry() );
 				$resp = $weather->reverseGeocodeByName( $query );
 				$jsonData = json_decode($resp, true);
-				$config->setLatitude( $jsonData[0]["lat"] );
-				$config->setLongitude( $jsonData[0]["lon"] );
+				
+				if( isset( $jsonData ) && isset( $jsonData[0]) ){
+					$config->setLatitude( $jsonData[0]["lat"] );
+					$config->setLongitude( $jsonData[0]["lon"] );
+				}
 			}
 		}
 

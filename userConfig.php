@@ -45,16 +45,16 @@
 
 		function initialize(){
 			$base = array(
-				'TimeZone' 			=> 'America/New_York',
+				'TimeZone' 					=> 'America/New_York',
 				'OpenWeatherToken' 	=> '',
-				'City'				=> '',
-				'Country'			=> '',
-				'State'				=> '',
-				'Latitude'			=> '',
-				'Longitude'			=> '',
-				'StockToken'		=> '',
-				'Stocks'			=> array(),
-				'RSSFeeds'			=> array(),
+				'City'							=> '',
+				'Country'						=> '',
+				'State'							=> '',
+				'Latitude'					=> '',
+				'Longitude'					=> '',
+				'StockToken'				=> '',
+				'Stocks'						=> array(),
+				'RSSFeeds'					=> array(),
 			);
 				
 			return file_put_contents(self::$conf, json_encode($base));
@@ -76,16 +76,16 @@
 
 		public static function commit(){
 			$changes = array(
-				'TimeZone' 			=> self::$timeZone,
+				'TimeZone' 					=> self::$timeZone,
 				'OpenWeatherToken' 	=> self::$weatherAPI,
-				'City'				=> self::$city,
-				'Country'			=> self::$country,
-				'State'				=> self::$state,
-				'Latitude'			=> self::$lat,
-				'Longitude'			=> self::$lon,
-				'StockToken'		=> self::$stockAPI,
-				'Stocks'			=> self::$stocks,
-				'RSSFeeds'			=> self::$rssFeeds,
+				'City'							=> self::$city,
+				'Country'						=> self::$country,
+				'State'							=> self::$state,
+				'Latitude'					=> self::$lat,
+				'Longitude'					=> self::$lon,
+				'StockToken'				=> self::$stockAPI,
+				'Stocks'						=> self::$stocks,
+				'RSSFeeds'					=> self::$rssFeeds,
 			);
 
 			if( self::isNullified($changes) ){ return; }
@@ -95,6 +95,7 @@
 		function __construct(){
 			// Check if config exists
 			if( !is_file( self::$conf ) ){
+				file_put_contents("log.txt", "Initializing due to non-existent file\n");
 				$this->initialize();
 			}
 
