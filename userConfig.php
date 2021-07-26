@@ -42,6 +42,8 @@
 		private static $stockAPI;
 		private static $stocks;
 		private static $rssFeeds;
+		private static $rssFont;
+		private static $rssCycleSpeed;
 
 		function initialize(){
 			$base = array(
@@ -55,6 +57,8 @@
 				'StockToken'				=> '',
 				'Stocks'						=> array(),
 				'RSSFeeds'					=> array(),
+				'RSSFont'						=> '32',
+				'RSSCycleSpeed' 		=> '10',
 			);
 				
 			return file_put_contents(self::$conf, json_encode($base));
@@ -71,6 +75,8 @@
 						&& 	isset(self::$stockAPI)
 						&& 	isset(self::$stocks)
 						&& 	isset(self::$rssFeeds)
+						&& 	isset(self::$rssFont)
+						&& 	isset(self::$rssCycleSpeed)
 					);
 		}
 
@@ -86,6 +92,8 @@
 				'StockToken'				=> self::$stockAPI,
 				'Stocks'						=> self::$stocks,
 				'RSSFeeds'					=> self::$rssFeeds,
+				'RSSFont'						=> self::$rssFont,
+				'RSSCycleSpeed' 		=> self::$rssCycleSpeed,
 			);
 
 			if( self::isNullified($changes) ){ return; }
@@ -104,6 +112,7 @@
 
 			// If parse fails due to malformed json, re-create
 			if( $configData == null ){
+				file_put_contents("log.txt", "Initializing due to null data\n");
 				$this->initialize();
 
 				// Something is seriously fucked if decode fails here
@@ -121,6 +130,26 @@
 			$this->setStockAPI( $configData['StockToken'] );
 			$this->setTrackedStocks( $configData['Stocks'] );
 			$this->setRSSFeeds( $configData['RSSFeeds'] );
+			$this->setRSSFont( $configData['RSSFont'] );
+			$this->setRSSCycleSpeed( $configData['RSSCycleSpeed'] );
+		}
+
+		public static function getRSSCycleSpeed(){
+			return self::$rssCycleSpeed;
+		}
+
+		public static function setRSSCycleSpeed( $speedSeconds ){
+			self::$rssCycleSpeed = $speedSeconds;
+			Configuration::commit();
+		}
+
+		public static function getRSSFont(){
+			return self::$rssFont;
+		}
+
+		public static function setRSSFont( $font_size ){
+			self::$rssFont = $font_size;
+			Configuration::commit();
 		}
 
 		public static function getRSSFeeds(){
