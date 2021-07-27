@@ -113,7 +113,7 @@
 			// If parse fails due to malformed json, re-create
 			if( $configData == null ){
 				file_put_contents("log.txt", "Initializing due to null data\n");
-				$this->initialize();
+				// $this->initialize();
 
 				// Something is seriously fucked if decode fails here
 				$configData = json_decode( file_get_contents( self::$conf ), true );
