@@ -44,6 +44,8 @@ function updateStocks( func ){
 		url: 'modules/stocks.php',
 		timeout: 180000,
 		success: function(data){
+			console.log("POSTED STOCKS");
+			
 			try{
 				// JSON response echoed from stock.php api
 				let jsonData = JSON.parse(data);

@@ -34,7 +34,7 @@ function cycleNewsItem( itemStack ){
 
 	setTimeout( function(){
 		cycleNewsItem(itemStack);
-	}, 5000);
+	}, 10000);
 }
 
 function triggerException( location ){
@@ -49,6 +49,8 @@ function updateRSS( func ){
 		url: 'modules/rss.php',
 		timeout: 600000,
 		success: function(data){
+			console.log("POSTED RSS");
+			console.log(data);
 			try{
 				// JSON response echoed from stock.php api
 				let jsonData = JSON.parse(data);
@@ -74,6 +76,7 @@ function updateRSS( func ){
 
 				}catch(err){
 					// Exception handling, stop loading, display error msg
+					console.log("catch exception rss");
 					triggerException( "cn" );
 				}
 				
@@ -82,6 +85,7 @@ function updateRSS( func ){
 		},
 		error: function(data){
 			setTimeout(function(){
+				console.log("err rss");
 				triggerException( "cn" );
 			}, 500);
 		}

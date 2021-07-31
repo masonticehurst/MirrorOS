@@ -4,6 +4,7 @@ function updateRTC(func) {
 		url: 'modules/datetime.php',
 		timeout: 1000,
 		success: function(data){
+			console.log("POSTED DATETIME");
 			let jsonData = JSON.parse(data);
 			$(".time").html(jsonData.time);
 			$(".date").html(jsonData.textual + ", " + jsonData.month + " " + jsonData.day);

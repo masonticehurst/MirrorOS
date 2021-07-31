@@ -4,6 +4,8 @@ function updateWeather( func ){
 		url: 'modules/weather.php',
 		timeout: 100000,
 		success: function(data){
+			console.log("POSTED WEATHER");
+			
 			try{
 				let jsonData = JSON.parse(data);
 				if( jsonData.status != 200 ){
